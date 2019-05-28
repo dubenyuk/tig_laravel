@@ -6,7 +6,9 @@ services:
     image: influxdb:latest
     container_name: influxdb
     ports:
+      - "8083:8083"
       - "8086:8086"
+      - "8090:8090"
     env_file:
       - 'env.influxdb'
     volumes:
@@ -19,14 +21,9 @@ services:
     container_name: telegraf
     links:
       - influxdb
-    external_links:
-      - laradock_nginx_1:nginx
-      - laradock_workspace:workspace
-      - laradock_php-fpm:php-fpm
     volumes:
-      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
-    networks:
-      - monitoring
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf
+      - /var/run/docker.sock:/var/run/docker.sock
 
   grafana:
     image: grafana/grafana:latest
@@ -41,7 +38,3 @@ services:
       # Data persistency
       # sudo mkdir -p /srv/docker/grafana/data; chown 472:472 /srv/docker/grafana/data
       - /tmp/docker/grafana/data:/var/lib/grafana
-
-networks:
-  monitoring:
-    external: true

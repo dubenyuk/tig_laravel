@@ -5,8 +5,6 @@ networks:
     driver: ${NETWORKS_DRIVER}
   backend:
     driver: ${NETWORKS_DRIVER}
-  monitoring:
-    external: true
 
 volumes:
   mysql:
@@ -128,7 +126,6 @@ services:
       networks:
         - frontend
         - backend
-        - monitoring
       links:
         - docker-in-docker
 
@@ -192,7 +189,6 @@ services:
         - workspace
       networks:
         - backend
-        - monitoring
       links:
         - docker-in-docker
 
@@ -264,7 +260,6 @@ services:
       networks:
         - frontend
         - backend
-        - monitoring
 
 ### Blackfire ########################################
     blackfire:
